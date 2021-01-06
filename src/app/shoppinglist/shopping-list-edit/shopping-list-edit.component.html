@@ -1,0 +1,66 @@
+<div class="row">
+  <div class="col-xs-12">
+    <form
+      (ngSubmit)="onAddOrUpdate(f)"
+      #f="ngForm">
+      <div class="row">
+        <div class="col-sm-5 form-group">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            id="name"
+            class="form-control"
+            ngModel
+            name="name"
+            required
+            #nameInput="ngModel"
+          >
+          <span
+            class="help-block"
+            *ngIf="!nameInput.valid && nameInput.touched">
+            Ingredient name required</span>
+        </div>
+        <div class="col-sm-2 form-group">
+          <label for="amount">Amount</label>
+          <input
+            type="number"
+            id="amount"
+            class="form-control"
+            ngModel
+            name="amount"
+            required
+            [pattern]="'^[1-9]+[0-9]*$'"
+            #amountInput="ngModel"
+          >
+          <span
+            class="help-block"
+            *ngIf="!amountInput.valid && amountInput.touched">
+            Amount required</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <button
+            class="btn btn-success"
+            type="submit"
+            [disabled]="!f.valid">
+            {{ editMode ? 'Update' : 'Add'}}
+          </button>
+          <button
+            class="btn btn-danger"
+            type="button"
+            *ngIf="editMode"
+            (click)="onDelete()">
+            Delete
+          </button>
+          <button
+            class="btn btn-primary"
+            type="button"
+            (click)="onClear()">
+            Clear
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

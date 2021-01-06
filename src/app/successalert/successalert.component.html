@@ -1,0 +1,28 @@
+<div class="alert alert-success" role="alert">
+  {{ successAlert }}
+</div>
+<div>
+  <input class="form-control" type="text" [(ngModel)]="username">
+  <p>{{username}}</p>
+  <button
+    class="btn btn-primary"
+    [disabled]="!username"
+    (click)="clearInput()">
+    Clear
+  </button>
+</div>
+<div>
+  <button
+    class="btn btn-primary"
+    (click)="onToggleDisplayDetails()">
+    Toggle Display Details
+  </button>
+  <span *ngIf="displayDetails">   Yo! Here are the details</span>
+  <div *ngFor="let click of clickArray; let idx = index">
+    <div class="default"
+      [ngStyle]="{backgroundColor: idx > 4 ? '#337ab7' : '#d3d3d3'}"
+      [ngClass]="{online: idx > 4}"> Index {{ idx}} / {{ click }}
+    </div>
+  </div>
+</div>
+
