@@ -39,4 +39,10 @@ export class RecipeDetailComponent implements OnInit {
     // works too, shows more complex routing using array of routing parts including params related this.id
   }
 
+  onDeleteRecipe(){
+    this.recipeService.deleteRecipe(this.id);
+    this.recipeService.recipesChanged.next(this.recipeService.getRecipes().slice());
+    this.router.navigate(['/recipes']);
+  }
+
 }
