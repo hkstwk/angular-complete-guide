@@ -25,7 +25,7 @@ export class RecipeStartComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log(this.signupForm);
+    console.log(this.signupForm.value);
   }
 
   getControls() {
@@ -34,7 +34,7 @@ export class RecipeStartComponent implements OnInit {
 
   onAddHobby(){
     const control = new FormControl(null, Validators.required);
-    <FormArray>this.signupForm.get('hobbies').push(control);
+    (<FormArray>this.signupForm.get('hobbies')).push(control);
 
   }
 }
