@@ -1,0 +1,5 @@
+input.ng-invalid.ng-touched {
+  border: solid salmon 1px;
+  background-color: lightyellow;
+}
+
