@@ -21,6 +21,8 @@ import {ReversePipe} from "./recipes/recipe-item/reverse.pipe";
 import {HttpClientModule} from "@angular/common/http";
 import {AuthComponent} from "./auth/auth.component";
 import {LoadingSpinnerComponent} from "./common/loading-spinner.component";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {AuthInterceptorService} from "./auth/auth-interceptor.service";
 
 @NgModule({
   declarations: [
@@ -48,7 +50,11 @@ import {LoadingSpinnerComponent} from "./common/loading-spinner.component";
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [ShoppingListService, RecipeService],
+  providers: [
+    ShoppingListService,
+    RecipeService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true},
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

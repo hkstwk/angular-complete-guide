@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy} from "@angular/core";
 import {NgForm} from "@angular/forms";
-import {Observer, Subscription} from "rxjs";
+import {Subscription, Observable} from "rxjs";
 import {AuthService, AuthResponseData} from "./auth.service";
 import {Router} from "@angular/router";
 
@@ -20,10 +20,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.userSubscription.unsubscribe(
-      () => {
-        console.log('Signin/Signup successful' + usr.email);
-      });
+    this.userSubscription.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -45,7 +42,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   onSubmit(form: NgForm) {
     const credentials = form.value;
 
-    let authObservable: Observer<AuthResponseData>;
+    let authObservable: Observable<AuthResponseData>;
 
     this.isLoading = true;
     this.error = null;
