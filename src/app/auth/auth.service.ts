@@ -59,15 +59,41 @@ export class AuthService {
       );
   }
 
-  public logout(){
+  public autoSignin() {
+    const authData: {
+      email: string;
+      id: string;
+      _token: string;
+      _tokenExpirationDate: string
+    } = JSON.parse(localStorage.getItem('authData'));
+
+    if (!authData) {
+      return;
+    }
+
+    const loadedUser = new User(
+      authData.email,
+      authData.id,
+      authData._token,
+      new Date(authData._tokenExpirationDate)
+    );
+
+    if (loadedUser.token){
+      this.user.next(loadedUser);
+    }
+  }
+
+  public logout() {
     this.user.next(null);
     this.router.navigate(['/auth']);
+    localStorage.clear();
   }
 
   private handleAuthentication(respData: AuthResponseData) {
     const expirationDate = new Date(new Date().getTime() + (+respData.expiresIn * 1000));
     const tmpUser = new User(respData.email, respData.localId, respData.idToken, expirationDate);
     this.user.next(tmpUser);
+    localStorage.setItem('authData', JSON.stringify(tmpUser));
   }
 
   private handleError(errorRes: HttpErrorResponse) {

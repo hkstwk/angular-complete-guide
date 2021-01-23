@@ -26,7 +26,9 @@ export class AuthComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userSubscription = this.authService.user.subscribe(
       (usr) => {
-        console.log('Signin/Signup successful!! ' + usr.email);
+        if (usr){
+          console.log('Signin/Signup successful!! ' + usr.email);
+        }
       }
     )
   }
