@@ -23,6 +23,7 @@ import {AuthComponent} from "./auth/auth.component";
 import {LoadingSpinnerComponent} from "./common/loading-spinner.component";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {AuthInterceptorService} from "./auth/auth-interceptor.service";
+import {AlertComponent} from "./common/alert/alert.component";
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import {AuthInterceptorService} from "./auth/auth-interceptor.service";
     RecipeStartComponent,
     RecipeEditComponent,
     ReversePipe,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,

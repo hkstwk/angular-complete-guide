@@ -3,10 +3,11 @@
     <div *ngIf="isLoading" style="text-align: center">
       <app-loading-spinner></app-loading-spinner>
     </div>
-    <div class="alert alert-danger" *ngIf="error">
-        {{ error }}
-        <span class="glyphicon glyphicon-remove" (click)="onCloseError()" style="align-content: right"></span>
-    </div>
+    <!--<div class="alert alert-danger" *ngIf="error">-->
+        <!--{{ error }}-->
+        <!--<span class="glyphicon glyphicon-remove" (click)="onCloseError()" style="align-content: right"></span>-->
+    <!--</div>-->
+    <app-alert [message]="error" *ngIf="error" (closeAlert)="onCloseError()"></app-alert>
     <form
       #authForm="ngForm"
       (ngSubmit)="onSubmit(authForm)"
