@@ -1,6 +1,5 @@
 import {BrowserModule} from "@angular/platform-browser";
 import {NgModule} from "@angular/core";
-import {RecipeModule} from "./recipes/recipe.module";
 import {AppRoutingModule} from "./app-routing.module";
 import {HttpClientModule} from "@angular/common/http";
 import {AppComponent} from "./app.component";
@@ -23,7 +22,6 @@ import {WarningAlertComponent} from "./warningalert/warningalert.component";
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    RecipeModule,
     ShoppingListModule,
     SharedModule,
     CoreModule,
