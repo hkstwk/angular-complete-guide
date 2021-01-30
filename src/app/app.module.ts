@@ -6,16 +6,11 @@ import {AppComponent} from "./app.component";
 import {HeaderComponent} from "./header/header.component";
 import {SharedModule} from "./shared/shared.module";
 import {CoreModule} from "./core.module";
-import {AuthModule} from "./auth/auth.module";
-import {SuccessAlertComponent} from "./successalert/successalert.component";
-import {WarningAlertComponent} from "./warningalert/warningalert.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    SuccessAlertComponent,
-    WarningAlertComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +18,6 @@ import {WarningAlertComponent} from "./warningalert/warningalert.component";
     AppRoutingModule,
     SharedModule,
     CoreModule,
-    AuthModule
   ],
   bootstrap: [AppComponent]
 })
