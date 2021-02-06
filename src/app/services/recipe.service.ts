@@ -1,16 +1,18 @@
-import {Recipe} from "../model/recipe.model";
-import {Injectable} from "@angular/core";
-import {Ingredient} from "../model/ingredient.model";
-import {ShoppingListService} from "./shopping-list.service";
-import {Subject} from "rxjs";
+import { Recipe } from "../model/recipe.model";
+import { Injectable } from "@angular/core";
+import { Ingredient } from "../model/ingredient.model";
+import { Subject } from "rxjs";
+import { Store } from "@ngrx/store";
+import * as ShoppingListActions from "../shoppinglist/shopping-list/store/shopping-list.actions";
+import { ShoppingListReducer } from "../shoppinglist/shopping-list/store/shopping-list.reducer";
 
 @Injectable()
 export class RecipeService {
+  recipesChanged: Subject<Recipe[]> = new Subject<Recipe[]>();
 
-  recipesChanged : Subject<Recipe[]> = new Subject<Recipe[]>();
-
-  constructor(private slService: ShoppingListService) {
-  }
+  constructor(
+    private store: Store<{ shoppingList: { ingredients: Ingredient[] } }>
+  ) {}
 
   // private recipes: Recipe[] = [
   //   new Recipe('Chicken curry',
@@ -39,34 +41,35 @@ export class RecipeService {
 
   private recipes: Recipe[] = [];
 
-  public getRecipes() {
+  public getRecipes(): Recipe[] {
     return this.recipes.slice();
   }
 
-  public getRecipe (index: number) : Recipe  {
+  public getRecipe(index: number): Recipe {
     return this.recipes[index];
   }
 
-  public addIngredientsToShoppingList(ingredients: Ingredient[]) {
-    this.slService.addIngredients(ingredients);
+  public addIngredientsToShoppingList(ingredients: Ingredient[]): void {
+    // this.slService.addIngredients(ingredients);
+    this.store.dispatch(new ShoppingListActions.AddIngredients(ingredients));
   }
 
-  public addRecipe(recipe: Recipe) {
+  public addRecipe(recipe: Recipe): void {
     this.recipes.push(recipe);
     this.recipesChanged.next(this.recipes.slice());
   }
 
-  public updateRecipe(index: number, newRecipe: Recipe) {
-    this.recipes[index]= newRecipe;
+  public updateRecipe(index: number, newRecipe: Recipe): void {
+    this.recipes[index] = newRecipe;
     this.recipesChanged.next(this.recipes.slice());
   }
 
-  public deleteRecipe(index: number){
+  public deleteRecipe(index: number): void {
     this.recipes.splice(index, 1);
     this.recipesChanged.next(this.recipes.slice());
   }
 
-  public setRecipes(recipes: Recipe[]){
+  public setRecipes(recipes: Recipe[]): void {
     this.recipes = recipes;
     this.recipesChanged.next(this.recipes.slice());
   }

@@ -1,24 +1,21 @@
-import {NgModule} from "@angular/core";
-import {RouterModule} from "@angular/router";
-import {AuthComponent} from "./auth.component";
-import {FormsModule} from "@angular/forms";
-import {SharedModule} from "../shared/shared.module";
+import { NgModule } from "@angular/core";
+import { RouterModule } from "@angular/router";
+import { AuthComponent } from "./auth.component";
+import { FormsModule } from "@angular/forms";
+import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
-  declarations: [
-    AuthComponent,
-  ],
+  declarations: [AuthComponent],
   imports: [
     FormsModule,
     SharedModule,
-    RouterModule.forChild([{
-      path: '',
-      component: AuthComponent
-    }
+    RouterModule.forChild([
+      {
+        path: "",
+        component: AuthComponent,
+      },
     ]),
   ],
-  exports: []
+  exports: [],
 })
-export class AuthModule {
-
-}
+export class AuthModule {}

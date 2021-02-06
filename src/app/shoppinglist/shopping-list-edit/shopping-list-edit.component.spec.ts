@@ -1,17 +1,18 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { ShoppingListEditComponent } from './shopping-list-edit.component';
+import { ShoppingListEditComponent } from "./shopping-list-edit.component";
 
-describe('ShoppingListEditComponent', () => {
+describe("ShoppingListEditComponent", () => {
   let component: ShoppingListEditComponent;
   let fixture: ComponentFixture<ShoppingListEditComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ShoppingListEditComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ShoppingListEditComponent],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ShoppingListEditComponent);
@@ -19,7 +20,7 @@ describe('ShoppingListEditComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
