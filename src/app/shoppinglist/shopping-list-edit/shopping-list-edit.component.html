@@ -4,7 +4,7 @@
       (ngSubmit)="onAddOrUpdate(f)"
       #f="ngForm">
       <div class="row">
-        <div class="col-sm-5 form-group">
+        <div class="col-xs-5 form-group">
           <label for="name">Name</label>
           <input
             type="text"
@@ -20,7 +20,7 @@
             *ngIf="!nameInput.valid && nameInput.touched">
             Ingredient name required</span>
         </div>
-        <div class="col-sm-2 form-group">
+        <div class="col-xs-3 form-group">
           <label for="amount">Amount</label>
           <input
             type="number"

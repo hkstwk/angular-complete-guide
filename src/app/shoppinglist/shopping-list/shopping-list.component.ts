@@ -3,6 +3,8 @@ import { Ingredient } from "../../model/ingredient.model";
 import { ShoppingListService } from "../../services/shopping-list.service";
 import { Observable, Subscription } from "rxjs";
 import { Store } from "@ngrx/store";
+import * as ShoppingListActions from "./store/shopping-list.actions";
+import * as fromShoppingList from "./store/shopping-list.reducer";
 
 @Component({
   selector: "app-shopping-list",
@@ -19,7 +21,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
 
   constructor(
     private shoppingListService: ShoppingListService,
-    private store: Store<{ shoppingList: { ingredients: Ingredient[] } }>
+    private store: Store<fromShoppingList.AppState>
   ) {}
 
   ngOnInit(): void {
@@ -33,34 +35,35 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     //     }
     //   );
 
-    this.selectedItemSubscription = this.shoppingListService.startedEditing.subscribe(
-      (index) => {
-        this.selectedItem = index;
-      }
-    );
+    // this.selectedItemSubscription = this.shoppingListService.startedEditing.subscribe(
+    //   (index) => {
+    //     this.selectedItem = index;
+    //   }
+    // );
 
-    this.clearSelectionSubscription = this.shoppingListService.highlightSelection.subscribe(
-      (clear: boolean) => {
-        if (clear) {
-          console.log("clear selection = true!");
-          this.clearSelection = true;
-        } else {
-          console.log("clear selection = false!");
-          this.clearSelection = false;
-        }
-      }
-    );
+    // this.clearSelectionSubscription = this.shoppingListService.highlightSelection.subscribe(
+    //   (clear: boolean) => {
+    //     if (clear) {
+    //       console.log("clear selection = true!");
+    //       this.clearSelection = true;
+    //     } else {
+    //       console.log("clear selection = false!");
+    //       this.clearSelection = false;
+    //     }
+    //   }
+    // );
   }
 
   onEditItem(index: number): void {
-    console.log(index);
-    this.shoppingListService.highlightSelection.next(false);
-    this.shoppingListService.startedEditing.next(index);
+    console.log("Index of item in array = " + index);
+    this.store.dispatch(new ShoppingListActions.StartEdit(index));
+    // this.shoppingListService.highlightSelection.next(false);
+    // this.shoppingListService.startedEditing.next(index);
   }
 
   ngOnDestroy(): void {
     // this.ingredientChangedSubscription.unsubscribe();
-    this.selectedItemSubscription.unsubscribe();
-    this.clearSelectionSubscription.unsubscribe();
+    // this.selectedItemSubscription.unsubscribe();
+    // this.clearSelectionSubscription.unsubscribe();
   }
 }

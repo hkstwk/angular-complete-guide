@@ -5,7 +5,7 @@
     <ul class="list-group">
       <a
         *ngFor="let ingredient of (ingredients | async).ingredients; let i = index;"
-        [ngClass]="selectedItem === i && !clearSelection ? 'list-group-item active' : 'list-group-item'"
+       [ngClass]="selectedItem === i && !clearSelection ? 'list-group-item active' : 'list-group-item'"
         style="cursor: pointer"
         (click)="onEditItem(i)"
       >
