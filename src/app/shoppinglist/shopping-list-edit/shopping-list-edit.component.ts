@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Ingredient } from "../../model/ingredient.model";
-import { ShoppingListService } from "../../services/shopping-list.service";
 import { NgForm } from "@angular/forms";
 import { Subscription } from "rxjs/Subscription";
 import * as ShoppingListActions from "../shopping-list/store/shopping-list.actions";
@@ -19,10 +18,7 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
   editMode = false;
   editedItem: Ingredient;
 
-  constructor(
-    private shoppingListService: ShoppingListService,
-    private store: Store<fromShoppingList.AppState>
-  ) {}
+  constructor(private store: Store<fromShoppingList.AppState>) {}
 
   ngOnInit(): void {
     this.subscription = this.store
