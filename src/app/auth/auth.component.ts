@@ -3,6 +3,9 @@ import { NgForm } from "@angular/forms";
 import { Subscription, Observable } from "rxjs";
 import { AuthService, AuthResponseData } from "./auth.service";
 import { Router } from "@angular/router";
+import { Store } from "@ngrx/store";
+import * as fromApp from "../store/app.reducer";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-auth",
@@ -15,18 +18,25 @@ export class AuthComponent implements OnInit, OnDestroy {
   error: string = null;
   userSubscription: Subscription;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private store: Store<fromApp.AppState>
+  ) {}
 
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();
   }
 
   ngOnInit(): void {
-    this.userSubscription = this.authService.user.subscribe((usr) => {
-      if (usr) {
-        console.log("Signin/Signup successful!! " + usr.email);
-      }
-    });
+    this.userSubscription = this.store
+      .select("auth")
+      .pipe(map((authState) => authState.user))
+      .subscribe((usr) => {
+        if (usr) {
+          console.log("Signin/Signup successful!! " + usr.email);
+        }
+      });
   }
 
   onSwitchMode() {
