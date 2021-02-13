@@ -5,6 +5,7 @@ import { AuthService, AuthResponseData } from "./auth.service";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import * as fromApp from "../store/app.reducer";
+import * as AuthActions from "./store/auth.actions";
 import { map } from "rxjs/operators";
 
 @Component({
@@ -48,7 +49,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form: NgForm) {
-    const credentials = form.value;
+    const credentials: { email: string; password: string } = form.value;
 
     let authObservable: Observable<AuthResponseData>;
 
@@ -56,9 +57,15 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.error = null;
 
     if (this.isLoginMode) {
-      authObservable = this.authService.signin(
-        credentials.email,
-        credentials.password
+      // authObservable = this.authService.signin(
+      //   credentials.email,
+      //   credentials.password
+      // );
+      this.store.dispatch(
+        new AuthActions.LoginStart({
+          email: credentials.email,
+          password: credentials.password,
+        })
       );
     } else {
       authObservable = this.authService.signup(
