@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { Actions, Effect, ofType} from "@ngrx/effects";
+import { Actions, Effect, ofType } from "@ngrx/effects";
 import { of } from "rxjs";
 import { catchError, map, switchMap, tap } from "rxjs/operators";
 import { User } from "src/app/model/user.model";
@@ -59,7 +59,6 @@ const handleError = (errorRes: any) => {
 
 @Injectable()
 export class AuthEffects {
-
   @Effect()
   authSignup = this.actions$.pipe(
     ofType(AuthActions.SIGNUP_START),
@@ -90,7 +89,7 @@ export class AuthEffects {
           catchError((errorRes) => {
             return handleError(errorRes);
           })
-      );
+        );
     })
   );
 
