@@ -17,7 +17,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   isLoginMode = true;
   isLoading = false;
   error: string = null;
-  userSubscription: Subscription;
+  storeSubscription: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -26,17 +26,21 @@ export class AuthComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnDestroy(): void {
-    this.userSubscription.unsubscribe();
+    if (this.storeSubscription) {
+      this.storeSubscription.unsubscribe();
+    }
   }
 
   ngOnInit(): void {
-    this.userSubscription = this.store.select("auth").subscribe((authState) => {
-      this.isLoading = authState.loading;
-      this.error = authState.authError;
-      if (authState.user) {
-        console.log("Signin/Signup successful!! " + authState.user.email);
-      }
-    });
+    this.storeSubscription = this.store
+      .select("auth")
+      .subscribe((authState) => {
+        this.isLoading = authState.loading;
+        this.error = authState.authError;
+        if (authState.user) {
+          console.log("Signin/Signup successful!! " + authState.user.email);
+        }
+      });
   }
 
   onSwitchMode() {
@@ -44,7 +48,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   onCloseError() {
-    this.error = null;
+    this.store.dispatch(new AuthActions.ClearError());
   }
 
   onSubmit(form: NgForm) {
@@ -56,10 +60,6 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.error = null;
 
     if (this.isLoginMode) {
-      // authObservable = this.authService.signin(
-      //   credentials.email,
-      //   credentials.password
-      // );
       this.store.dispatch(
         new AuthActions.LoginStart({
           email: credentials.email,
@@ -67,25 +67,13 @@ export class AuthComponent implements OnInit, OnDestroy {
         })
       );
     } else {
-      authObservable = this.authService.signup(
-        credentials.email,
-        credentials.password
+      this.store.dispatch(
+        new AuthActions.SignupStart({
+          email: credentials.email,
+          password: credentials.password,
+        })
       );
     }
-
-    authObservable.subscribe(
-      (userPayload: AuthResponseData) => {
-        console.log(userPayload);
-        this.isLoading = false;
-        this.router.navigate(["/recipes"]);
-      },
-      (errorMessage) => {
-        console.log(errorMessage);
-        this.error = errorMessage;
-        this.isLoading = false;
-      }
-    );
-
     form.reset();
   }
 }
