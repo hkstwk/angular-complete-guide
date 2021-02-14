@@ -1,12 +1,11 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { NgForm } from "@angular/forms";
-import { Subscription, Observable } from "rxjs";
-import { AuthService, AuthResponseData } from "./auth.service";
+import { Subscription } from "rxjs";
+import { AuthService } from "./auth.service";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import * as fromApp from "../store/app.reducer";
 import * as AuthActions from "./store/auth.actions";
-import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-auth",
@@ -53,11 +52,6 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   onSubmit(form: NgForm) {
     const credentials: { email: string; password: string } = form.value;
-
-    let authObservable: Observable<AuthResponseData>;
-
-    this.isLoading = true;
-    this.error = null;
 
     if (this.isLoginMode) {
       this.store.dispatch(
