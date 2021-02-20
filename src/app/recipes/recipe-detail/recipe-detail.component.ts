@@ -3,6 +3,7 @@ import { Recipe } from "../../model/recipe.model";
 import { RecipeService } from "../../services/recipe.service";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import * as fromApp from "../../store/app.reducer";
+import * as RecipeActions from "../store/recipe.actions";
 import { Store } from "@ngrx/store";
 import { map, switchMap } from "rxjs/operators";
 
@@ -30,6 +31,7 @@ export class RecipeDetailComponent implements OnInit {
         }),
         switchMap((id) => {
           this.id = id;
+          console.log(this.id);
           return this.store.select("recipes");
         }),
         map((recipeState) => {
@@ -41,7 +43,6 @@ export class RecipeDetailComponent implements OnInit {
       .subscribe((recipe) => {
         this.recipe = recipe;
       });
-    console.log(this.id);
   }
 
   onAddIngredientsToShoppingList() {
@@ -55,10 +56,7 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   onDeleteRecipe() {
-    this.recipeService.deleteRecipe(this.id);
-    this.recipeService.recipesChanged.next(
-      this.recipeService.getRecipes().slice()
-    );
+    this.store.dispatch(new RecipeActions.DeleteRecipe(this.id));
     this.router.navigate(["/recipes"]);
   }
 }
