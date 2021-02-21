@@ -55,7 +55,7 @@ export class AuthComponent implements OnInit, OnDestroy {
 
     if (this.isLoginMode) {
       this.store.dispatch(
-        new AuthActions.LoginStart({
+        AuthActions.loginStartNewSyntax({
           email: credentials.email,
           password: credentials.password,
         })

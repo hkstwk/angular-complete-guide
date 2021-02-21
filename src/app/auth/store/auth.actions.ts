@@ -1,6 +1,6 @@
 import { Action } from "@ngrx/store";
+import { createAction, props } from "@ngrx/store";
 
-export const LOGIN_START = "[Auth] Login Start";
 export const AUTO_LOGIN = "[Auth] Auto Login";
 export const AUTHENTICATE_PASSED = "[Auth] Authenticate Passed";
 export const AUTHENTICATE_FAILED = "[Auth] Authenticate Failed";
@@ -26,11 +26,13 @@ export class Logout implements Action {
   readonly type = LOGOUT;
 }
 
-export class LoginStart implements Action {
-  readonly type = LOGIN_START;
-
-  constructor(public payload: { email: string; password: string }) {}
-}
+export const loginStartNewSyntax = createAction(
+  "[Auth] Login Start New Syntax",
+  props<{
+    email: string;
+    password: string;
+  }>()
+);
 
 export class AutoLogin implements Action {
   readonly type = AUTO_LOGIN;
@@ -55,7 +57,6 @@ export class ClearError implements Action {
 export type AuthActions =
   | AuthenticatePassed
   | Logout
-  | LoginStart
   | AuthenticateFailed
   | SignupStart
   | ClearError

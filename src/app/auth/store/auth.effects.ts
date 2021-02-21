@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, Effect, ofType } from "@ngrx/effects";
 import { of } from "rxjs";
 import { catchError, map, switchMap, tap } from "rxjs/operators";
 import { User } from "src/app/model/user.model";
@@ -94,38 +94,40 @@ export class AuthEffects {
     })
   );
 
-  @Effect()
-  authLogin = this.actions$.pipe(
-    ofType(AuthActions.LOGIN_START),
-    switchMap((authData: AuthActions.LoginStart) => {
-      return this.http
-        .post<AuthResponseData>(
-          "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" +
-            environment.firebaseAPIKey,
-          {
-            email: authData.payload.email,
-            password: authData.payload.password,
-            returnSecureToken: true,
-          }
-        )
-        .pipe(
-          tap((respData: AuthResponseData) => {
-            this.authService.setAutoLogoutTimer(+respData.expiresIn * 1000);
-          }),
-          map((respData: AuthResponseData) => {
-            console.log("loging success!");
-            return handleAuthentication(
-              +respData.expiresIn,
-              respData.email,
-              respData.localId,
-              respData.idToken
-            );
-          }),
-          catchError((errorRes) => {
-            return handleError(errorRes);
-          })
-        );
-    })
+  authLogin$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.loginStartNewSyntax),
+      switchMap((action) => {
+        console.log(action);
+        return this.http
+          .post<AuthResponseData>(
+            "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" +
+              environment.firebaseAPIKey,
+            {
+              email: action.email,
+              password: action.password,
+              returnSecureToken: true,
+            }
+          )
+          .pipe(
+            tap((respData: AuthResponseData) => {
+              this.authService.setAutoLogoutTimer(+respData.expiresIn * 1000);
+            }),
+            map((respData: AuthResponseData) => {
+              console.log("loging success!");
+              return handleAuthentication(
+                +respData.expiresIn,
+                respData.email,
+                respData.localId,
+                respData.idToken
+              );
+            }),
+            catchError((errorRes) => {
+              return handleError(errorRes);
+            })
+          );
+      })
+    )
   );
 
   @Effect()
