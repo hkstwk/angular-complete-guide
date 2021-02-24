@@ -1,8 +1,6 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Subscription } from "rxjs";
-import { AuthService } from "./auth.service";
-import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import * as fromApp from "../store/app.reducer";
 import * as AuthActions from "./store/auth.actions";
@@ -18,11 +16,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   error: string = null;
   storeSubscription: Subscription;
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private store: Store<fromApp.AppState>
-  ) {}
+  constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnDestroy(): void {
     if (this.storeSubscription) {
@@ -47,7 +41,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   onCloseError() {
-    this.store.dispatch(new AuthActions.ClearError());
+    this.store.dispatch(AuthActions.clearErrorNewSyntax());
   }
 
   onSubmit(form: NgForm) {
@@ -62,7 +56,7 @@ export class AuthComponent implements OnInit, OnDestroy {
       );
     } else {
       this.store.dispatch(
-        new AuthActions.SignupStart({
+        AuthActions.signupStartNewSyntax({
           email: credentials.email,
           password: credentials.password,
         })

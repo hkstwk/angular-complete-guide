@@ -1,6 +1,6 @@
 import { User } from "src/app/model/user.model";
 import * as AuthActions from "./auth.actions";
-import { Action, createReducer, on } from '@ngrx/store';
+import { Action, createReducer, on } from "@ngrx/store";
 
 export interface AuthState {
   user: User;
@@ -16,60 +16,43 @@ const initialState: AuthState = {
 
 const _authReducer = createReducer(
   initialState,
-  on(AuthActions.loginStartNewSyntax, (state) => ({
+  on(
+    AuthActions.loginStartNewSyntax,
+    AuthActions.signupStartNewSyntax,
+    (state) => ({
+      ...state,
+      authError: null,
+      loading: true,
+    })
+  ),
+  on(AuthActions.authenticationFailedNewSyntax, (state, action) => ({
+    ...state,
+    user: null,
+    authError: action.errorMessage,
+    loading: false,
+  })),
+  on(AuthActions.logoutNewSyntax, (state) => ({
+    ...state,
+    user: null,
+  })),
+  on(AuthActions.clearErrorNewSyntax, (state) => ({
     ...state,
     authError: null,
-    loading: true,
+    loading: false,
+  })),
+  on(AuthActions.authenticatePassedNewSyntax, (state, action) => ({
+    ...state,
+    authError: null,
+    loading: false,
+    user: new User(
+      action.email,
+      action.userId,
+      action.token,
+      action.expirationDate
+    ),
   }))
 );
 
 export function authReducerNewSyntax(state: AuthState, action: Action) {
   return _authReducer(state, action);
-}
-
-export function AuthReducer(
-  state: AuthState = initialState,
-  action: AuthActions.AuthActions
-) {
-  console.log(state);
-  switch (action.type) {
-    case AuthActions.AUTHENTICATE_PASSED:
-      const user = new User(
-        action.payload.email,
-        action.payload.userId,
-        action.payload.token,
-        action.payload.expirationDate
-      );
-      return {
-        ...state,
-        authError: null,
-        user: user,
-        loading: false,
-      };
-    case AuthActions.LOGOUT:
-      return {
-        ...state,
-        user: null,
-      };
-    case AuthActions.SIGNUP_START:
-      return {
-        ...state,
-        authError: null,
-        loading: true,
-      };
-    case AuthActions.AUTHENTICATE_FAILED:
-      return {
-        ...state,
-        user: null,
-        authError: action.payload,
-        loading: false,
-      };
-    case AuthActions.CLEAR_ERROR:
-      return {
-        ...state,
-        authError: null,
-      };
-    default:
-      return state;
-  }
 }
