@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "angular-course-udemy-rec-62fc9"
+  },
+  "targets": {
+    "angular-course-udemy-rec-62fc9": {
+      "hosting": {
+        "my-first-app": [
+          "angular-course-udemy-rec-62fc9"
+        ]
+      }
+    }
   }
 }
