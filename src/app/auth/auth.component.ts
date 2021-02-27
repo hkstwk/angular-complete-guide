@@ -1,14 +1,14 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { NgForm } from "@angular/forms";
-import { Subscription } from "rxjs";
-import { Store } from "@ngrx/store";
-import * as fromApp from "../store/app.reducer";
-import * as AuthActions from "./store/auth.actions";
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import * as fromApp from '../store/app.reducer';
+import * as AuthActions from './store/auth.actions';
 
 @Component({
-  selector: "app-auth",
-  templateUrl: "./auth.component.html",
-  styleUrls: ["./auth.component.css"],
+  selector: 'app-auth',
+  templateUrl: './auth.component.html',
+  styleUrls: ['./auth.component.css'],
 })
 export class AuthComponent implements OnInit, OnDestroy {
   isLoginMode = true;
@@ -26,12 +26,12 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.storeSubscription = this.store
-      .select("auth")
+      .select('auth')
       .subscribe((authState) => {
         this.isLoading = authState.loading;
         this.error = authState.authError;
         if (authState.user) {
-          console.log("Signin/Signup successful!! " + authState.user.email);
+          console.log('Signin/Signup successful!! ' + authState.user.email);
         }
       });
   }
